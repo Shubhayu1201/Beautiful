@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Warning</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f5f5dc;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Common warning style */
+    .warning-box {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      text-align: center;
+      background: #fff3cd;
+      color: #842029;
+      border: 4px solid #ff0000;
+      border-radius: 10px;
+      padding: 2rem;
+      width: fit-content;
+      max-width: 90%;
+      line-height: 1.5;
+      position: absolute;
+      left: 50%;
+      top: 45%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
+      opacity: 0;
+    }
+
+    .fade-in { animation: fadeIn 1s forwards; }
+    .fade-out { animation: fadeOut 1s forwards; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+      to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      to { opacity: 0; visibility: hidden; transform: translate(-50%, -50%) scale(0.8); }
+    }
+
+    .popup-box {
+      font-family: 'Bebas Neue', 'Noto Sans', sans-serif;
+      font-size: 4rem;
+      text-align: center;
+      position: absolute;
+      background-color: #ffffff;
+      border: 2px solid #4a4a4a;
+      padding: 2rem;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      transform: scale(0.8);
+      letter-spacing: 2px;
+      white-space: nowrap;
+    }
+
+    .cursive {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3.2rem;
+      color: #e81f1f;
+    }
+
+    .visible { opacity: 1; transform: scale(1); }
+
+    @media (max-width: 640px) {
+      .warning-box { font-size: 1.3rem; padding: 1rem; }
+      .popup-box { font-size: 1.5rem; padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- First alert box -->
+  <div id="box1" class="warning-box fade-in">
+    <span class="cursive">Congratulations!!</span> <br>
+    Your PC has been hacked⚠️  <br>
+    And!!
+  </div>
+
+  <!-- Second alert box -->
+  <div id="box2" class="warning-box">
+    I want to tell you that <br>
+    you are
+  </div>
+
+  <script>
+    const box1 = document.getElementById('box1');
+    const box2 = document.getElementById('box2');
+
+    const words = [
+      'Attractive','Lovely','Gorgeous','Stunning','Elegant','Charming','Exquisite','Alluring',
+      'Radiant','Breathtaking','Magnificent','Pulchritudinous','Ravishing','Fair','Comely',
+      'Graceful','Resplendent','Fetching','Beauteous','Splendid','सुंदर','Hermosa','حلوة',
+      'beautiful','pretty','amazing','wonderful','brilliant','glowing','lovely','magnificent',
+      'Divine','Enchanting','Exquisite','Fabulous','Glamorous','Heavenly','Irresistible',
+      'Marvelous','Splendid','Sublime','Transcendent','Unforgettable','Pragtige','예쁜','美丽','Schön','きれい'
+    ];
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Step 1: Fade out Box 1
+    setTimeout(() => { box1.classList.add('fade-out'); }, 3000);
+
+    // Step 2: Show Box 2
+    setTimeout(() => {
+      box1.style.display = "none";
+      box2.classList.add('fade-in');
+    }, 4200);
+
+    // Step 3: Fade out Box 2
+    setTimeout(() => {
+      box2.classList.remove('fade-in');
+      box2.classList.add('fade-out');
+    }, 7200);
+
+    // Step 4: Popups
+    setTimeout(() => {
+      const shuffledWords = shuffleArray(words);
+      let delay = 0;
+      shuffledWords.forEach((word, index) => {
+        setTimeout(() => {
+          const popup = document.createElement('div');
+          popup.className = 'popup-box';
+          popup.textContent = word;
+          document.body.appendChild(popup);
+
+          const popupWidth = popup.offsetWidth;
+          const popupHeight = popup.offsetHeight;
+          const top = Math.random() * (window.innerHeight - popupHeight);
+          const left = Math.random() * (window.innerWidth - popupWidth);
+
+          popup.style.top = `${top}px`;
+          popup.style.left = `${left}px`;
+
+          setTimeout(() => { popup.classList.add('visible'); }, 10);
+        }, delay);
+        delay += 150;
+      });
+
+      // Step 5: Fade out all popups
+      setTimeout(() => {
+        const popups = document.querySelectorAll('.popup-box');
+        popups.forEach((popup, i) => {
+          setTimeout(() => {
+            popup.classList.remove('visible');
+            popup.style.opacity = "0";
+            popup.style.transform = "scale(0.5)";
+            setTimeout(() => popup.remove(), 500);
+          }, i * 50);
+        });
+      }, shuffledWords.length * 150 + 1500);
+
+      // Step 6: Final message ("but the most important thing...")
+      setTimeout(() => {
+        const finalBox = document.createElement('div');
+        finalBox.className = 'warning-box fade-in';
+        finalBox.textContent = "but the most beautiful thing is...";
+        document.body.appendChild(finalBox);
+
+        // Step 7: Fade out finalBox and show last message
+        setTimeout(() => {
+          finalBox.classList.remove('fade-in');
+          finalBox.classList.add('fade-out');
+        }, 3000);
+
+        setTimeout(() => {
+          finalBox.remove();
+          const heartBox = document.createElement('div');
+          heartBox.className = 'warning-box fade-in';
+          heartBox.innerHTML = "<span class='cursive'>It’s you,and your good heart ❤️ 😋 <br> Okay byee</span>";
+          document.body.appendChild(heartBox);
+        }, 4500);
+
+      }, shuffledWords.length * 150 + 2500);
+
+    }, 8500);
+  </script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f694a1;
+            font-family: 'Roboto Slab', serif;
+            color: #ffffff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .text-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .text-container {
+            font-size: 5rem;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 3s steps(10, end) forwards;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        .button-container {
+            opacity: 0;
+            animation: fadeIn 1s ease-in forwards;
+            animation-delay: 3s;
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .cta-button {
+            padding: 1rem 2rem;
+            background-color: #ffffff;
+            color: #f694a1;
+            font-weight: 700;
+            border-radius: 9999px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease-in-out;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        .loading-text {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            font-weight: 400;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .visible {
+            opacity: 1;
+        }
+
+        @media (max-width: 640px) {
+            .text-container {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="text-wrapper">
+        <div class="text-container">
+            Hello 👋
+        </div>
+    </div>
+    <div class="button-container">
+        <button id="redirectButton" class="cta-button">Click Me</button>
+        <div id="loadingText" class="loading-text"></div>
+    </div>
+
+    <script>
+        document.getElementById('redirectButton').addEventListener('click', function() {
+            const loadingText = document.getElementById('loadingText');
+            
+            // Step 1: Show "Authorising your PC..."
+            loadingText.textContent = "Authorising your PC...";
+            loadingText.classList.add('visible');
+
+            // Step 2: After 1.5s, change to "Getting access to your PC..."
+            setTimeout(() => {
+                loadingText.textContent = "Getting access to your PC...";
+            }, 1500);
+
+            // Step 3: Redirect after 3s
+            setTimeout(() => {
+                window.location.href = "part2.html";
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
